@@ -1,0 +1,29 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+/* Virgil — Excalidraw's hand-drawn font (MIT), self-hosted from public/fonts */
+@font-face {
+  font-family: 'Virgil';
+  src: url('/fonts/Virgil.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme static {
+  /* Rubik is auto-downloaded and self-hosted by @nuxt/fonts (ships with Nuxt UI) */
+  --font-sans: 'Rubik', sans-serif;
+  /* Handwritten accent font -> exposes a `font-hand` utility in Tailwind v4 */
+  --font-hand: 'Virgil', 'Segoe Print', 'Comic Sans MS', cursive;
+}
+
+/* Weather condition gradient backdrops used by the current-conditions hero */
+.weather-sky {
+  background-image: linear-gradient(160deg, var(--sky-from) 0%, var(--sky-to) 100%);
+}
+
+/* Leaflet controls need a solid backdrop that also reads well in dark mode */
+.leaflet-container {
+  font-family: var(--font-sans);
+  background: var(--ui-bg-muted);
+}
