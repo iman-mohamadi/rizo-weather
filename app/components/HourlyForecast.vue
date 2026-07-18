@@ -112,32 +112,44 @@ const lineColor = '#0ea5e9'
       </template>
     </ClientOnly>
 
-    <div class="mt-2 overflow-x-auto">
-      <div class="flex gap-1 min-w-max pb-1">
-        <div
-          v-for="p in points"
-          :key="p.x"
-          class="flex flex-col items-center gap-1.5 rounded-lg px-3 py-2 hover:bg-elevated transition-colors"
+    <UCarousel
+      v-slot="{ item: p }"
+      :items="points"
+      arrows
+      wheel-gestures
+      :prev="{ size: 'sm', color: 'neutral', variant: 'ghost' }"
+      :next="{ size: 'sm', color: 'neutral', variant: 'ghost' }"
+      :ui="{
+        root: 'flex items-center gap-1',
+        viewport: 'min-w-0 flex-1 overflow-hidden',
+        container: 'ms-0',
+        item: 'basis-[4.5rem] snap-start select-none',
+        controls: 'contents',
+        arrows: 'contents',
+        prev: '!static translate-none shrink-0 order-first',
+        next: '!static translate-none shrink-0 order-last'
+      }"
+      class="mt-2"
+    >
+      <div class="flex flex-col items-center gap-1.5 rounded-lg px-2 py-2 select-none hover:bg-elevated transition-colors">
+        <span class="text-xs text-muted whitespace-nowrap">{{ formatHourShort(p.time) }}</span>
+        <WeatherIcon
+          :code="p.code"
+          :is-day="p.isDay"
+          size="size-6 text-primary"
+        />
+        <span class="text-sm font-semibold">{{ round(p.temp) }}{{ tempUnit }}</span>
+        <span
+          class="flex items-center gap-0.5 text-xs"
+          :class="p.precip > 0 ? 'text-info' : 'text-dimmed'"
         >
-          <span class="text-xs text-muted whitespace-nowrap">{{ formatHourShort(p.time) }}</span>
-          <WeatherIcon
-            :code="p.code"
-            :is-day="p.isDay"
-            size="size-6 text-primary"
+          <UIcon
+            name="i-lucide-droplet"
+            class="size-3"
           />
-          <span class="text-sm font-semibold">{{ round(p.temp) }}{{ tempUnit }}</span>
-          <span
-            class="flex items-center gap-0.5 text-xs"
-            :class="p.precip > 0 ? 'text-info' : 'text-dimmed'"
-          >
-            <UIcon
-              name="i-lucide-droplet"
-              class="size-3"
-            />
-            {{ p.precip }}%
-          </span>
-        </div>
+          {{ p.precip }}%
+        </span>
       </div>
-    </div>
+    </UCarousel>
   </div>
 </template>
